@@ -1,2 +1,5 @@
 ##py virtual-env files
 health-monitor
+
+##module caches
+__pycache__
