@@ -6,27 +6,30 @@ from .context import helpers
 class HealthCheck(helpers.Observer):
   __endpoints = []
   __tmpList = []
+  __status_dict = {}
   __thread_lock = threading.Lock()
   __locked_resource_retry_count = 0
   __exponential_backoff_base = 20
+  __pub_sub = helpers.StatusPubSub.get_instance()
 
   def poll(self,interval):
     while True:
       self.__thread_lock.acquire()
-      urls = self.__endpoints
+      urls = set(self.__endpoints)
       self.__thread_lock.release()
       print("polling...")
       for url in urls:
         try:
           req = requests.get(url)
           if(req.status_code == 200):
-            print(url+ " : 1\n")
+            self.__status_dict[url] = "Operational"
             continue
           raise Exception()
         except:
-          print(url+ " : 0\n")
+          self.__status_dict[url] = "Unavailable"
+      self.__pub_sub.publish(self.__status_dict)
       time.sleep(interval)
-
+  
   def notify(self,endpoints):
     self.__tmpList = endpoints
     if(self.__thread_lock.locked()):
@@ -40,6 +43,6 @@ class HealthCheck(helpers.Observer):
     self.__tmpList = []
 
   def start_polling(self):
-    polling_thread = threading.Thread(target=self.__poll__, args=(10,),daemon=True)
+    polling_thread = threading.Thread(target=self.__poll__, args=(1,),daemon=True)
     polling_thread.start()
     # polling_thread.join()
