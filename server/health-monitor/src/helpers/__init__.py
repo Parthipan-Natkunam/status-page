@@ -1,1 +1,1 @@
-from .EndpointObserver import Servers
+from .EndpointObserver import Servers, Observer
