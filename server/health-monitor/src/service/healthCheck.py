@@ -30,7 +30,7 @@ class HealthCheck(helpers.Observer):
   def notify(self,endpoints):
     self.__tmpList = endpoints
     if(self.__thread_lock.locked()):
-     if(self.__locked_resource_retry_count<4):
+     if(self.__locked_resource_retry_count<3):
        self.__locked_resource_retry_count += 1
        self.notify(self.__tmpList)
        time.sleep(self.__exponential_backoff_base*self.__locked_resource_retry_count)

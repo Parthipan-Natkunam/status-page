@@ -1,5 +1,6 @@
-# import logging
-from flask import Flask
+import threading
+from flask import Flask, request, abort
+from service import HealthCheck
 from helpers import Servers
 
 
@@ -7,21 +8,24 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello():
-    return "Hello World!"
+def root_handler():
+    return "Flask Server Online"
+
+@app.route('/initMonitoring',methods=["POST"])
+def init_server_monitoring():
+    payload = request.get_json()
+    if payload is not None:
+        endpoints = payload["endpoints"]
+        if endpoints and len(endpoints) > 0:
+            healthCheckService = HealthCheck()
+            servers = Servers(healthCheckService)
+            servers.add_endpoints(endpoints)
+            polling_thread = threading.Thread(target=healthCheckService.poll, args=(10,),daemon=True)
+            polling_thread.start()
+            return "success",201
+    abort(400)
 
 if __name__ == '__main__':
-    # format = "%(asctime)s: %(message)s"
-    # logging.basicConfig(format=format, level=logging.INFO,
-    #                     datefmt="%H:%M:%S")
-    # service_polling_thread = threading.Thread(target=check_service_health, args=(), daemon=True)
-    # service_polling_thread.start()
-    # app.run()
-    servers = Servers()
-    print(servers.get_endpoints())
-    servers.set_endpoints(["123","456","789"])
-    print(servers.get_endpoints())
-    servers.remove_endpoint("456")
-    print(servers.get_endpoints())
-    servers.reset_endpoints()
-    print(servers.get_endpoints())
+    app.run()
+   
+    
