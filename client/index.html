@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="lib/css/tailwind.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Status Page</title>
+    <script src="lib/js/htmx-core.min.js"></script>
+  </head>
+  <body class="bg-indigo-50">
+    <div class="container mx-auto p-8">
+      <div class="m-2 bg-gray-50 p-4 rounded-lg shadow">
+        <h1 class="my-3 pb-2 border-b-4 text-2xl font-medium">
+          <i class="fa fa-server" aria-hidden="true"></i> Server Status
+        </h1>
+        <ul class="mt-5 divide-y divide-gray-300">
+          <li class="grid grid-flow-col grid-cols-5 gap-2 pb-8 pt-6">
+            <div class="col-span-4 flex flex-col">
+              <h4 class="text-xl mb-2 line-clamp-3">
+                Web Application Endpionts
+              </h4>
+              <p class="line-clamp-3 text-sm">
+                All server endpoints that handle the services for web
+                application.
+              </p>
+            </div>
+            <div>
+              <span
+                class="status-indicator status-online min-h-full font-light mx-2 flex flex-col items-center justify-center"
+                >Available</span
+              >
+            </div>
+          </li>
+          <li class="grid grid-flow-col grid-cols-5 gap-2 pb-8 pt-6">
+            <div class="col-span-4 flex flex-col">
+              <h4 class="text-xl mb-2 line-clamp-3">SQL Database Server</h4>
+              <p class="line-clamp-3 text-sm">
+                The primary MySQL dtastore server.
+              </p>
+            </div>
+            <div>
+              <span
+                class="status-indicator status-online min-h-full font-light mx-2 flex flex-col items-center justify-center"
+                >Available</span
+              >
+            </div>
+          </li>
+          <li class="grid grid-flow-col grid-cols-5 gap-2 pb-8 pt-6">
+            <div class="col-span-4 flex flex-col">
+              <h4 class="text-xl mb-2 line-clamp-3">MongoDB Server</h4>
+              <p class="line-clamp-3 text-sm">The primary Mongo Instance.</p>
+            </div>
+            <div>
+              <span
+                class="status-indicator status-offline min-h-full font-light mx-2 flex flex-col items-center justify-center"
+                >Unavailable</span
+              >
+            </div>
+          </li>
+          <li class="grid grid-flow-col grid-cols-5 gap-2 pb-8 pt-6">
+            <div class="col-span-4 flex flex-col">
+              <h4 class="text-xl mb-2 line-clamp-3">Mobile Endpoints</h4>
+              <p class="line-clamp-3 text-sm">
+                Server endpoints for the mobile application
+              </p>
+            </div>
+            <div>
+              <span
+                class="status-indicator status-unknown min-h-full text-center font-light mx-2 flex flex-col items-center justify-center"
+                ><i class="fa fa-circle-o-notch h-6 w-6" aria-hidden="true"></i
+                >Fetching Status</span
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

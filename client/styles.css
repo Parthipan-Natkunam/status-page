@@ -1,0 +1,55 @@
+/* global resets */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* custom font family */
+body {
+  font-family: "Work Sans", sans-serif;
+}
+
+/* custom classes */
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* core styles*/
+.status-indicator::before {
+  content: " ";
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.status-indicator.status-online::before {
+  background: rgba(52, 211, 153);
+}
+
+.status-indicator.status-offline::before {
+  background: #831843;
+}
+
+/* .status-indicator.status-unknown::before {
+  background: #fcd34d;
+} */
+
+/* modifiers */
+li.grid:first-of-type {
+  padding-top: 0;
+}
+
+i.fa.fa-circle-o-notch {
+  animation: spin 0.8s linear infinite;
+}
