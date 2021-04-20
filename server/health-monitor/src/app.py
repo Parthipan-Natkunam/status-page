@@ -30,7 +30,7 @@ def init_server_monitoring():
 def get_status_stream():
     status_source = StatusPubSub.get_instance()
     statusReader = StatusReader()
-    return Response(statusReader.stream_data(status_source), mimetype='text/event-stream', headers={"Access-Control-Allow-Origin": "*"})
+    return Response(statusReader.stream_data(status_source), mimetype='text/event-stream', headers={"Access-Control-Allow-Origin": "http://127.0.0.1:5500","Access-Control-Allow-Credentials": "true"})
 
 if __name__ == '__main__':
     app.run()
