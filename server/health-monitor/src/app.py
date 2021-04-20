@@ -1,7 +1,8 @@
 import threading
-from flask import Flask, request, abort
-from service import HealthCheck
-from helpers import Servers
+import time
+from flask import Flask, request, abort, Response
+from service import HealthCheck, StatusReader
+from helpers import Servers, StatusPubSub
 
 
 app = Flask(__name__)
@@ -25,7 +26,14 @@ def init_server_monitoring():
             return "success",201
     abort(400)
 
+@app.route('/getStatus',methods=["GET"])
+def get_status_stream():
+    status_source = StatusPubSub.get_instance()
+    statusReader = StatusReader()
+    return Response(statusReader.stream_data(status_source), mimetype='text/event-stream', headers={"Access-Control-Allow-Origin": "*"})
+
 if __name__ == '__main__':
     app.run()
+
    
     

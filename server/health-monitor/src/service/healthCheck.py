@@ -15,14 +15,14 @@ class HealthCheck(helpers.Observer):
   def poll(self,interval):
     while True:
       self.__thread_lock.acquire()
-      urls = set(self.__endpoints)
+      urls = set(map( lambda urlData: urlData["url"],self.__endpoints))
       self.__thread_lock.release()
       print("polling...")
       for url in urls:
         try:
           req = requests.get(url)
           if(req.status_code == 200):
-            self.__status_dict[url] = "Operational"
+            self.__status_dict[url] = "Available"
             continue
           raise Exception()
         except:
@@ -41,8 +41,3 @@ class HealthCheck(helpers.Observer):
     self.__locked_resource_retry_count = 0
     self.__endpoints = self.__tmpList
     self.__tmpList = []
-
-  def start_polling(self):
-    polling_thread = threading.Thread(target=self.__poll__, args=(1,),daemon=True)
-    polling_thread.start()
-    # polling_thread.join()
